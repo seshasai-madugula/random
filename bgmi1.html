@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BGMI Tournament Platform</title>
+    <style>
+        /* Universal Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: url('https://wallpapercave.com/wp/wp6589261.jpg') no-repeat center center/cover;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+        header {
+            width: 100%;
+            padding: 1.5rem;
+            background-color: rgba(0, 0, 0, 0.8);
+            text-align: center;
+            color: #ffdd57;
+            text-shadow: 2px 2px 8px #000;
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+        h2 {
+            margin-bottom: 1rem;
+            color: #ffdd57;
+            text-shadow: 2px 2px 6px #000;
+        }
+        #register-section, #admin-dashboard {
+            width: 90%;
+            max-width: 500px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            transition: transform 0.3s;
+        }
+        #register-section:hover, #admin-dashboard:hover {
+            transform: scale(1.02);
+        }
+        form input, form button, #admin-dashboard button {
+            width: 100%;
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            border: 1px solid #ffdd57;
+            border-radius: 6px;
+            font-size: 1rem;
+            color: #333;
+        }
+        form button, #admin-dashboard button {
+            background-color: #ff5722;
+            color: #ffffff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        form button:hover, #admin-dashboard button:hover {
+            background-color: #ff7043;
+            transform: scale(1.05);
+        }
+        #tournament-list {
+            margin-top: 1rem;
+        }
+        .tournament-item {
+            padding: 1rem;
+            background-color: rgba(255, 217, 0, 0.1);
+            border: 1px solid #ffdd57;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            color: #ffdd57;
+            text-shadow: 1px 1px 4px #000;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        BGMI Tournament Platform
+    </header>
+
+    <!-- Registration Section -->
+    <section id="register-section">
+        <h2>Register for Tournament</h2>
+        <form id="registration-form">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <button type="submit">Register</button>
+        </form>
+        <p id="registration-status"></p>
+    </section>
+
+    <!-- Admin Dashboard -->
+    <section id="admin-dashboard">
+        <h2>Admin Dashboard</h2>
+        <button onclick="createTournament()">Create Tournament</button>
+        <div id="tournament-list">
+            <!-- Tournaments will appear here -->
+        </div>
+    </section>
+
+    <script>
+        // Simulated database
+        const users = [];
+        const tournaments = [];
+
+        // Registration Form Handler
+        document.getElementById("registration-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+
+            const user = { username, email };
+            users.push(user);
+
+            document.getElementById("registration-status").textContent = "Registration successful!";
+            document.getElementById("registration-form").reset();
+        });
+
+        // Create Tournament (Admin Function)
+        function createTournament() {
+            const tournamentId = tournaments.length + 1;
+            const tournament = { id: tournamentId, name: `Tournament ${tournamentId}` };
+            tournaments.push(tournament);
+
+            displayTournaments();
+        }
+
+        // Display Tournaments in Admin Dashboard
+        function displayTournaments() {
+            const tournamentList = document.getElementById("tournament-list");
+            tournamentList.innerHTML = "";
+
+            tournaments.forEach(tournament => {
+                const tournamentItem = document.createElement("div");
+                tournamentItem.classList.add("tournament-item");
+                tournamentItem.textContent = `${tournament.name}`;
+                tournamentList.appendChild(tournamentItem);
+            });
+        }
+    </script>
+</body>
+</html>

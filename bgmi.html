@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BGMI Tournament Platform</title>
+    <style>
+        /* Resetting defaults */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f3f4f6;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            width: 100%;
+            text-align: center;
+        }
+        h1, h2 {
+            margin-bottom: 1rem;
+        }
+        #register-section, #admin-dashboard {
+            width: 90%;
+            max-width: 500px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        form input, form button, #admin-dashboard button {
+            width: 100%;
+            margin-top: 0.5rem;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        form button, #admin-dashboard button {
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+        }
+        #tournament-list {
+            margin-top: 1rem;
+        }
+        .tournament-item {
+            padding: 1rem;
+            background-color: #e3f2fd;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>BGMI Tournament Platform</h1>
+    </header>
+
+    <!-- Registration Section -->
+    <section id="register-section">
+        <h2>Register for Tournament</h2>
+        <form id="registration-form">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <button type="submit">Register</button>
+        </form>
+        <p id="registration-status"></p>
+    </section>
+
+    <!-- Admin Dashboard -->
+    <section id="admin-dashboard">
+        <h2>Admin Dashboard</h2>
+        <button onclick="createTournament()">Create Tournament</button>
+        <div id="tournament-list">
+            <!-- Tournaments will appear here -->
+        </div>
+    </section>
+
+    <script>
+        // Simulated database
+        const users = [];
+        const tournaments = [];
+
+        // Registration Form Handler
+        document.getElementById("registration-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+
+            const user = { username, email };
+            users.push(user);
+
+            document.getElementById("registration-status").textContent = "Registration successful!";
+            document.getElementById("registration-form").reset();
+        });
+
+        // Create Tournament (Admin Function)
+        function createTournament() {
+            const tournamentId = tournaments.length + 1;
+            const tournament = { id: tournamentId, name: `Tournament ${tournamentId}` };
+            tournaments.push(tournament);
+
+            displayTournaments();
+        }
+
+        // Display Tournaments in Admin Dashboard
+        function displayTournaments() {
+            const tournamentList = document.getElementById("tournament-list");
+            tournamentList.innerHTML = "";
+
+            tournaments.forEach(tournament => {
+                const tournamentItem = document.createElement("div");
+                tournamentItem.classList.add("tournament-item");
+                tournamentItem.textContent = `${tournament.name}`;
+                tournamentList.appendChild(tournamentItem);
+            });
+        }
+    </script>
+</body>
+</html>

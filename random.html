@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold text-center mb-4">Password Generator</h2>
+        
+        <!-- Length Selection -->
+        <label class="block text-gray-700">Password Length</label>
+        <input id="length" type="number" min="4" max="20" value="8" class="w-full border rounded p-2 mb-4">
+
+        <!-- Checkbox Options -->
+        <div class="mb-4">
+            <label class="block text-gray-700">Include:</label>
+            <label class="inline-flex items-center">
+                <input id="uppercase" type="checkbox" class="form-checkbox text-blue-600" checked>
+                <span class="ml-2">Uppercase Letters</span>
+            </label>
+            <label class="inline-flex items-center">
+                <input id="lowercase" type="checkbox" class="form-checkbox text-blue-600" checked>
+                <span class="ml-2">Lowercase Letters</span>
+            </label>
+            <label class="inline-flex items-center">
+                <input id="numbers" type="checkbox" class="form-checkbox text-blue-600" checked>
+                <span class="ml-2">Numbers</span>
+            </label>
+            <label class="inline-flex items-center">
+                <input id="symbols" type="checkbox" class="form-checkbox text-blue-600">
+                <span class="ml-2">Symbols</span>
+            </label>
+        </div>
+
+        <!-- Generate Button -->
+        <button onclick="generatePassword()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded">
+            Generate Password
+        </button>
+
+        <!-- Password Display and Strength -->
+        <div class="mt-4">
+            <p class="text-gray-700">Generated Password:</p>
+            <div id="password" class="w-full border bg-gray-100 rounded p-2 text-gray-900 font-mono mt-2"></div>
+            <p id="strength" class="mt-2 font-semibold"></p>
+        </div>
+    </div>
+
+    <script>
+        function generatePassword() {
+            const length = document.getElementById('length').value;
+            const uppercase = document.getElementById('uppercase').checked;
+            const lowercase = document.getElementById('lowercase').checked;
+            const numbers = document.getElementById('numbers').checked;
+            const symbols = document.getElementById('symbols').checked;
+
+            const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+            const numberChars = '0123456789';
+            const symbolChars = '!@#$%^&*()_+[]{}|;:,.<>?';
+
+            let characterList = '';
+            if (uppercase) characterList += uppercaseChars;
+            if (lowercase) characterList += lowercaseChars;
+            if (numbers) characterList += numberChars;
+            if (symbols) characterList += symbolChars;
+
+            if (characterList === '') {
+                document.getElementById('password').textContent = "Select at least one option!";
+                return;
+            }
+
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                const randomChar = characterList[Math.floor(Math.random() * characterList.length)];
+                password += randomChar;
+            }
+
+            document.getElementById('password').textContent = password;
+            evaluateStrength(password);
+        }
+
+        function evaluateStrength(password) {
+            const strengthDisplay = document.getElementById('strength');
+            if (password.length < 6) {
+                strengthDisplay.textContent = "Strength: Weak";
+                strengthDisplay.className = "text-red-500";
+            } else if (password.length < 10) {
+                strengthDisplay.textContent = "Strength: Medium";
+                strengthDisplay.className = "text-yellow-500";
+            } else {
+                strengthDisplay.textContent = "Strength: Strong";
+                strengthDisplay.className = "text-green-500";
+            }
+        }
+    </script>
+
+</body>
+</html>
